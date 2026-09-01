@@ -65,7 +65,7 @@ const sessionOptions = {
     store,
     secret: process.env.SECRET,
     resave: false,
-    saveUnintialized : true,
+    saveUninitialized: true,
     cookie: {
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -87,7 +87,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
-    res.locals.currUser = req.user;
+    res.locals.currUser = req.user || null;
     next();
 });
 
@@ -114,6 +114,11 @@ app.use((err, req, res, next)=>{
     //res.status(status).send(message);
 });
 
-app.listen(8080, ()=>{
-    console.log("server is listening to port 8080");
+const PORT = process.env.PORT || 8080;
+// app.listen(8080, ()=>{
+//     console.log("server is listening to port 8080");
+// });
+
+app.listen(PORT, ()=>{
+    console.log(`server is listening on port ${PORT}`);
 });
